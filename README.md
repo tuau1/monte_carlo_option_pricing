@@ -116,7 +116,7 @@ Each chart script saves its PNG and opens a chart window; close the window to fi
 
 ## What I learned
 
-I started this project without much of a math background. The first thing I simulated was a die: 10 rolls gave an average of 3.8, and 100,000 rolls gave 3.50. That was the moment Monte Carlo made sense to me. Each single outcome is random, but run enough of them and the average lands on the true value.
+The first thing I simulated was a die: 10 rolls gave an average of 3.8, and 100,000 rolls gave 3.50. That was the moment Monte Carlo made sense to me. Each single outcome is random, but run enough of them and the average lands on the true value.
 
 From there I simulated a stock. The way I think about it is a boat on a river: the drift is the current, a slow steady push in one direction, and volatility is the waves, big and random. Over a single day the waves dominate, but over years the current catches up, because the waves partly cancel out and only grow with the square root of time. That one idea ended up explaining most of the project, especially why the spread of outcomes grows with σ√T.
 
@@ -136,7 +136,3 @@ The biggest takeaway for me was the implied volatility result. My model uses App
 - Price American options, which can be exercised early
 - Compare implied volatility across different strikes and expirations to see the volatility smile
 - Run the model on other stocks and compare how the market prices their volatility
-
----
-
-*Volatility/maturity grid layout inspired by a similar chart I came across while learning. Built step by step as a learning project, with AI used as a tutor.*
