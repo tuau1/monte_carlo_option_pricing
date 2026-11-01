@@ -1,6 +1,8 @@
 import numpy as np
 import yfinance as yf
 
+np.random.seed(42)
+
 ticker = "AAPL"
 data = yf.download(ticker, period="1y")
 
@@ -25,7 +27,9 @@ d1 = (np.log(S / K) + (r + annual_sigma**2 / 2) * T) / (annual_sigma * np.sqrt(T
 d2 = d1 - annual_sigma * np.sqrt(T)
 bs_call = S * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
 
-returns = np.random.normal(r / 252, daily_sigma, size=(100000, int(252 * T)))
+steps = int(252 * T)   # trading days until expiration
+dt = T / steps         # length of each step, so the simulation covers exactly T years
+returns = np.random.normal(r * dt, annual_sigma * np.sqrt(dt), size=(100000, steps))
 ending_prices = S * np.prod(1 + returns, axis=1)
 mc_call = np.mean(np.maximum(ending_prices - K, 0)) / (1 + r) ** T
 

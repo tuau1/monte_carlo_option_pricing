@@ -1,4 +1,3 @@
-[README.md().md](https://github.com/user-attachments/files/34244826/README.md.md)
 # Monte Carlo Option Pricing vs Black-Scholes
 
 A Python project that prices European call and put options two independent ways, by **Monte Carlo simulation** and by the **Black-Scholes formula**, shows that the two converge, and then applies the model to a **real Apple (AAPL) option** to back out the market's implied volatility.
@@ -15,11 +14,11 @@ A Python project that prices European call and put options two independent ways,
 | Historical volatility (1 year) | 24.1% |
 | Risk-free rate (3-month Treasury) | 3.8% |
 | Black-Scholes price | $16.28 |
-| Monte Carlo price (100,000 simulations) | $16.29 |
+| Monte Carlo price (100,000 simulations) | $16.19 |
 | Market price (bid/ask midpoint) | $17.80 |
 | **Implied volatility** | **26.6%** |
 
-**Takeaway:** Monte Carlo and Black-Scholes agree to within a cent. The market prices the option higher than the model because it expects Apple to be about **2.5 percentage points more volatile** over the next few months than it was over the past year.
+**Takeaway:** Monte Carlo and Black-Scholes agree to within about 10 cents, which is the normal random noise of 100,000 simulations. The market prices the option higher than the model because it expects Apple to be about **2.5 percentage points more volatile** over the next few months than it was over the past year.
 
 > Note: results depend on the date the data is downloaded and on the risk-free rate used.
 
