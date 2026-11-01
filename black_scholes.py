@@ -18,3 +18,6 @@ print("Call price:", round(call_price, 2))
 
 put_price = K * np.exp(-r * T) * norm.cdf(-d2) - S * norm.cdf(-d1)
 print("Put price:", round(put_price, 2))
+
+# Put-call parity check: Call - Put should equal S - K * e^(-rT)
+print("Put-call parity:", round(call_price - put_price, 4), "=", round(S - K * np.exp(-r * T), 4))

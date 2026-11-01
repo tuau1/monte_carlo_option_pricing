@@ -58,7 +58,7 @@ for ax, T in zip(axes[1], times):
     ax.axhline(S, color=c_start, linestyle="--", linewidth=1)
     spread = paths[:, -1].std()
     time_endings.append(paths[:, -1])
-    ax.set_title(f"σ = 16%, T = {T} years   (spread = {spread:.1f})", fontsize=11)
+    ax.set_title(f"σ = 16%, T = {T} {'year' if T == 1 else 'years'}   (spread = {spread:.1f})", fontsize=11)
     ax.set_ylim(30, 260)
     ax.set_xlabel("Years")
     style(ax)
@@ -75,7 +75,7 @@ style(ax)
 
 ax = axes[2][1]
 for endings, T, c in zip(time_endings, times, c_dist):
-    ax.hist(endings, bins=80, range=(0, 320), density=True, alpha=0.6, color=c, label=f"T = {T} years")
+    ax.hist(endings, bins=80, range=(0, 320), density=True, alpha=0.6, color=c, label=f"T = {T} {'year' if T == 1 else 'years'}")
 ax.set_title("Ending prices, σ = 16%", fontsize=11)
 ax.set_xlabel("Price ($)")
 ax.legend()
@@ -83,13 +83,14 @@ style(ax)
 
 ax = axes[2][2]
 ax.axis("off")
-ax.text(0.02, 0.85, "What this shows", fontsize=13, fontweight="bold", color=c_avg)
+ax.text(0.02, 0.93, "What this shows", fontsize=13, fontweight="bold", color=c_avg)
 ax.text(0.02, 0.15,
         "The spread of outcomes grows roughly with σ × √T.\n\n"
         "• Double the volatility → about double the spread\n"
         "• 16× the time → about 4× the spread (√16 = 4)\n"
         "• Over long periods the spread runs a bit higher,\n"
-        "  because compounding stretches the right tail\n\n"
+        "  because prices drift up with the interest rate\n"
+        "  and compounding stretches the right tail\n\n"
         "A wider spread raises both call and put\n"
         "values, because an option's downside\n"
         "is capped at $0.",

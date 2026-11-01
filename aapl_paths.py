@@ -8,22 +8,24 @@ np.random.seed(42)
 # ---------- Inputs ----------
 ticker = "AAPL"
 K = 345
-T = 76 / 365
-r = 0.038         # 3-month Treasury yield
+T = 76 / 365      # 76 days counted from 2026-10-31 (the day after the last close) to the 2027-01-15 expiration
+r = 0.0397        # 3-month Treasury bill rate at the 2026-10-30 close (Yahoo ^IRX)
 expiry = "2027-01-15"
 
 # ---------- Data ----------
-data = yf.download(ticker, period="1y", progress=False)
+# fixed one-year window (the last close is 2026-10-30) so the results can be reproduced
+data = yf.download(ticker, start="2025-10-31", end="2026-10-31", progress=False, auto_adjust=False)
 prices = data["Close"].squeeze()
 daily_returns = prices.pct_change().dropna()
 
 S = float(prices.iloc[-1])
 daily_sigma = float(daily_returns.std())
 annual_sigma = daily_sigma * np.sqrt(252)
-days = int(252 * T)
+days = int(252 * T)   # trading days until expiration
+dt = T / days         # length of each step, so the simulation covers exactly T years
 
 # ---------- Pricing (100,000 simulations) ----------
-all_returns = np.random.normal(r / 252, daily_sigma, size=(100000, days))
+all_returns = np.random.normal(r * dt, annual_sigma * np.sqrt(dt), size=(100000, days))
 ending_all = S * np.prod(1 + all_returns, axis=1)
 mc_call = np.mean(np.maximum(ending_all - K, 0)) / (1 + r) ** T
 prob_above = np.mean(ending_all > K)
@@ -64,7 +66,6 @@ ax.fill_between(x, low, high, color=c_band, alpha=0.12, label="90% of outcomes")
 ax.plot(x, band.mean(axis=0), color=c_avg, linewidth=2.5, label="Average path")
 
 ax.axhline(K, color=c_strike, linestyle="-", linewidth=1.8, label=f"Strike ${K}")
-ax.text(days, K, f"  Strike ${K}", color=c_strike, va="center", fontsize=9, fontweight="bold")
 
 stats = (
     f"Spot ${S:.2f}  |  Strike ${K}\n"
@@ -72,19 +73,20 @@ stats = (
     f"Monte Carlo price ${mc_call:.2f}  |  Black-Scholes ${bs_call:.2f}\n"
     f"Chance of finishing above strike: {prob_above:.0%}"
 )
-ax.text(0.02, 0.97, stats, transform=ax.transAxes, va="top", fontsize=9.5,
+ax.text(0.02, 0.97, stats, transform=ax.transAxes, va="top", fontsize=9.5, parse_math=False,
         bbox=dict(boxstyle="round,pad=0.6", facecolor="white", edgecolor="#d0d4da"))
 
-ax.set_xlabel("Trading days to expiration")
+ax.set_xlabel("Trading days from today")
 ax.set_ylabel("Price ($)")
 ax.legend(loc="lower left", frameon=True, fontsize=9)
 for side in ["top", "right"]:
     ax.spines[side].set_visible(False)
 ax.grid(alpha=0.25)
 
-axh.hist(ending_all[ending_all > K], bins=60, orientation="horizontal",
+bins = np.linspace(ending_all.min(), ending_all.max(), 121)   # same bins for both colors
+axh.hist(ending_all[ending_all > K], bins=bins, orientation="horizontal",
          color=c_above, alpha=0.7)
-axh.hist(ending_all[ending_all <= K], bins=60, orientation="horizontal",
+axh.hist(ending_all[ending_all <= K], bins=bins, orientation="horizontal",
          color=c_below, alpha=0.9)
 axh.axhline(K, color=c_strike, linestyle="-", linewidth=1.8)
 axh.set_xlabel("Ending prices")
