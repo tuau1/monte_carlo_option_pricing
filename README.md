@@ -1,4 +1,4 @@
-[README .md](https://github.com/user-attachments/files/34244521/README.md)
+[README.md().md](https://github.com/user-attachments/files/34244826/README.md.md)
 # Monte Carlo Option Pricing vs Black-Scholes
 
 A Python project that prices European call and put options two independent ways, by **Monte Carlo simulation** and by the **Black-Scholes formula**, shows that the two converge, and then applies the model to a **real Apple (AAPL) option** to back out the market's implied volatility.
@@ -47,7 +47,7 @@ With 100 simulations the price is far off. By 100,000 it matches Black-Scholes. 
 ### How volatility and time shape outcomes
 ![Volatility and time grid](vol_time_grid.png)
 
-The spread of outcomes grows with **σ × √T**: doubling volatility doubles the spread, while 16 times the time only quadruples it. Distributions skew right because prices can't fall below $0 but have no upper limit.
+The spread of outcomes grows roughly with **σ × √T**: doubling volatility about doubles the spread, while 16 times the time only about quadruples it. Over long horizons the spread runs a bit higher than σ√T predicts, because compounding stretches the right tail. Distributions skew right because prices can't fall below $0 but have no upper limit.
 
 ### Option price vs volatility and time
 ![Volatility sensitivity](volatility.png)
