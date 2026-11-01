@@ -85,11 +85,11 @@ ax = axes[2][2]
 ax.axis("off")
 ax.text(0.02, 0.85, "What this shows", fontsize=13, fontweight="bold", color=c_avg)
 ax.text(0.02, 0.15,
-        "The spread of outcomes grows with σ × √T.\n\n"
-        "• Double the volatility → double the spread\n"
-        "• 16× the time → only 4× the spread (√16 = 4)\n"
-        "• Distributions skew right: prices can't\n"
-        "  fall below $0, but have no upper limit\n\n"
+        "The spread of outcomes grows roughly with σ × √T.\n\n"
+        "• Double the volatility → about double the spread\n"
+        "• 16× the time → about 4× the spread (√16 = 4)\n"
+        "• Over long periods the spread runs a bit higher,\n"
+        "  because compounding stretches the right tail\n\n"
         "A wider spread raises both call and put\n"
         "values, because an option's downside\n"
         "is capped at $0.",
